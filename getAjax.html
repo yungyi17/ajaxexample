@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	#headTitle {
+		border-bottom: 3px solid #ddd;
+		width: 77%;
+	}
+
+	#name {
+		margin-right: 252px;
+	}
+
+	#region {
+		margin-right: 184px;
+	}
+
+	#index {
+		margin-right: 14px;
+	}
+
+	button {
+		background: #38c46c;
+		padding: 17px;
+		margin-top: 11px;
+		color: white;
+		font-size: 1em;
+		border-radius: 17px;
+		box-shadow: 3px 3px 4px #1bc45a;
+	}
+
+	#reset {
+		background: #d61b37;
+		padding: 17px;
+		margin-top: 11px;
+		color: white;
+		font-size: 1em;
+		border-radius: 17px;
+		box-shadow: 3px 3px 4px #bc5161;
+	}
+</style>
+
+<!--<input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	var loadCount = 0;
+
+    $("button").click(function(){
+    	
+    	loadCount++; // Loading count controller
+
+    	// Load data ONLY once
+    	if (loadCount < 2) {
+    		// Ajax to load data, json format
+	        $.get("worldInfoJson.json", function(data, status){
+	        	$("#titleMessage").text("");
+	        	$("#index").append("No.");
+	        	$("#name").append("Country Name")
+	        	$("#region").append("Region");
+	        	$("#population").append("Population");
+
+	        	var indexCounter = 0;
+
+	        	for (var i = 0; i < data.length; i++) {
+	        		indexCounter++;
+	        		$("#dataContents").append("<tr width='777'>");
+	        		$("#dataContents").append("<td width='47'>" + indexCounter + ". " + "</td>");
+	            	$("#dataContents").append("<td width='377'>" + data[i].Name + "</td>");
+	            	$("#dataContents").append("<td width='247'>" + data[i].Region + "</td>");
+	            	$("#dataContents").append("<td width='77'>" + data[i].Population + "</td>");
+	            	$("#dataContents").append("</tr>");
+	        	}
+
+	        	/*$("#myInput").keyup(function(){
+	        		var input, filter, tr, td, i;
+	  				input = document.getElementById("myInput");
+	  				filter = input.value.toUpperCase();
+		        	//var text = $("#dataContents").html();
+		        	//$("#footer").text(text);
+		        	tr = dataContents.getElementsByTagName("tr");
+		        	//alert("Table Row Number = " + tr.length);
+		        	for (i = 0; i < tr.length; i++) {
+				    	td = tr[i].getElementsByTagName("td")[1];
+				    	//alert(td);
+				    	if (td) {
+				      		if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				        		tr[i].style.display = "";
+				      		} else {
+				        		tr[i].style.display = "none";
+				      		}
+    					}       
+  					}
+	        	});*/
+	        	
+	        });
+    	}
+    });
+
+    $("#reset").click(function(){
+    	window.location.reload();
+    });
+});
+</script>
+</head>
+<body>
+
+<div class="demo">
+	<div id="headTitle">
+		<span id="titleMessage">Click the "Load data" button below to display the data.<br> 
+		Click the "Reset" button to refresh the data.</span>
+		<span id="index"></span>
+		<span id="name"></span>
+		<span id="region"></span>
+		<span id="population"></span>
+	</div>
+	<div id="dataContents"></div>
+	<div id="footer"></div>
+</div>
+<button>Load data</button>
+<button id="reset">Reset</button>
+
+</body>
+</html>
